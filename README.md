@@ -1,7 +1,7 @@
 # Modèle LaTeX non-officiel pour la rédaction de mémoires de l'Université Jean Monnet - Saint-Étienne
 En l'absence de modèle LaTeX officiel adapté à la rédaction de mémoires de recherche et/ou de rapports de stage, j'ai essayé d'en créer un au mieux de mes compétences actuelles. La plupart des modifications et redéfinitions de commandes/macros prennent appui sur les recommandations des Presses Universitaires de Saint-Étienne, accessibles ici : [Consignes PUSE](https://mood.univ-st-etienne.fr/pluginfile.php/739972/mod_resource/content/1/Consignes%20PUSE.pdf).
 
-Toute correction ou ajout sont bienvenus afin d'affiner ce modèle au fil du temps.
+Toute correction ou ajout sont bienvenus afin d'affiner ce modèle au fil du temps. Un exemple du résultat final est visible sur le fichier ``main.pdf``.
 
 ## Outils recommandés
 - [MiKTeX](https://miktex.org/howto/install-miktex) : distribution LaTeX à installer pour pouvoir compiler des documents
@@ -26,4 +26,4 @@ pdfsubject={Sujet du mémoire},
 pdfkeywords={mots-clés}]{hyperref}
 ```
 
-Il convient de les modifier de façon adéquate, de même que sur la page de garde qui n'utilise pas (pour le moment) les fonctions natives de LaTeX.
+Il convient de les modifier de façon adéquate, de même que sur la page de garde qui n'utilise pas les fonctions natives de LaTeX.
