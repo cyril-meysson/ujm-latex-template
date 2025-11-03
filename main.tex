@@ -1,0 +1,277 @@
+\documentclass[12pt,a4paper,french]{book}
+
+%%%%%%%%%%%%%%%%%%
+% Packages LaTeX %
+%%%%%%%%%%%%%%%%%%
+
+% Dimensions et marges des pages :
+\usepackage[a4paper,
+margin=2cm,
+bindingoffset=1cm,
+includeheadfoot]{geometry}
+
+% Polices et encodage :
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{fourier}
+\usepackage[babel=true]{microtype}
+\usepackage{newunicodechar}
+\newunicodechar{∙}{\textperiodcentered} % Support du point médian
+
+% Mise en page :
+\usepackage{setspace} % interlignes perso
+\usepackage[defaultlines=4,all]{nowidow}
+\usepackage{fancyhdr}
+\usepackage{emptypage}
+\usepackage{lipsum} % pour tester la mise en page
+
+% Gestion des couleurs :
+\usepackage[dvipsnames,usenames]{color}
+% \usepackage[enable]{darkmode} % À désactiver avant l'export
+
+% Inclusion d'images/figures :
+\usepackage{float}
+\usepackage{graphicx}
+\pdfminorversion=7 % Permettre PDF > v1.5
+\pdfimageresolution=300 % Images en 300 DPI
+
+% Inclusion de tableaux :
+\usepackage{booktabs}
+\usepackage{tabularx}
+
+% Normes typographiques :
+\usepackage[backend=biber,
+style=verbose-trad2,
+singletitle=true,
+isbn=false,
+doi=false,
+ibidpage=true
+]{biblatex}
+\usepackage[autostyle=true]{csquotes} % Gestion des guillemets
+\usepackage[french,noconfigs]{babel}
+\usepackage{mfirstuc} % Majuscules automatiques
+
+% Inclusion d'hyperliens et des métadonnées PDF :
+\usepackage[unicode,
+pdfauthor={Prénom NOM},
+pdftitle={Titre du mémoire},
+pdfsubject={Sujet du mémoire},
+pdfkeywords={mots-clés}]{hyperref}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Détails de mise en forme %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Espacements sur page de garde :
+\newcommand{\HRule}{\rule{\linewidth}{0.5mm}}
+
+% Interligne 1.5 :
+\onehalfspacing
+
+% Profondeur de numérotation :
+\setcounter{secnumdepth}{4} % dans le texte
+\setcounter{tocdepth}{4}    % dans le sommaire
+
+% En-têtes et pieds de page :
+\fancyhf{}
+\fancyhead[LE]{\itshape\nouppercase{\leftmark}}
+\fancyhead[RO]{\itshape\nouppercase{\rightmark}}
+\fancyhead[LO]{}
+\fancyhead[RE]{}
+\fancyfoot[LE,RO]{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0pt}
+\setlength{\headheight}{15pt}
+
+\fancypagestyle{plain}{% Pour corriger les pages en style plain
+  \fancyhead{}\renewcommand{\headrule}{}%
+  \renewcommand{\headrulewidth}{0.4pt}%
+}
+
+% Résumés de chapitres :
+\newcommand{\summary}[1]{%
+  \hfill%
+  \begin{minipage}{0.8\linewidth}
+    \emph{Résumé du chapitre : }#1%
+  \end{minipage}%
+  \par
+  \newpage
+}
+
+% Noms des listes des tables et figures :
+% \addto\captionsfrench{\renewcommand{\listfigurename}{Liste des figures}}
+% \addto\captionsfrench{\renewcommand{\listtablename}{Liste des tables}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Normes bibliographiques %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\renewcommand*{\newunitpunct}{\addcomma\space} % utiliser la virgule comme délimiteur
+\renewcommand*{\mkibid}{\emph} % Ibid. en italique
+\renewcommand*{\revsdnamepunct}{} % Supprime les virgules entre noms et prénoms
+\renewcommand*{\intitlepunct}{} % Supprime les deux points après in
+
+% Ne conserve "in" que pour les articles issus d'ouvrages collectifs
+\renewbibmacro*{in:}{%
+  \ifentrytype{article}
+    {}
+    {
+      \newunitpunct
+      \printtext{\bibstring{in}\space}%
+    }%
+}
+
+\renewbibmacro*{cite:title}{% Supprime le titre pour op. cit.
+  \printtext[bibhyperlink]{%
+    \ifsingletitle{}{\printfield[citetitle]{labeltitle}}%
+    \setunit{\nametitledelim}%
+    \bibstring[\mkibid]{opcit}}
+}
+
+% Ajoute un séparateur entre le titre périodique et la date
+\renewbibmacro*{issue+date}{%
+  \printfield{issue}%
+  \newunit
+  \usebibmacro{date}%
+  \newunit}
+
+% Redéfinition des citations issues de collections 
+\renewbibmacro*{byeditor+others}{%
+  \ifnameundef{editor}
+    {}
+    {%\setunit{\addspace}%
+     \printnames[labelname]{editor}% Initiales pour les prénoms des éditeurs
+     \clearname{editor}%
+     \setunit{\addspace}%
+     \usebibmacro{byeditor+othersstrg}%
+     \newunit}%
+  \usebibmacro{byeditorx}%
+  \usebibmacro{bytranslator+others}}
+
+\DeclareBibliographyDriver{incollection}{%
+  \usebibmacro{bibindex}%
+  \usebibmacro{begentry}%
+  \usebibmacro{author/translator+others}%
+  \setunit{\labelnamepunct}\newblock
+  \usebibmacro{title}%
+  \newunit
+  \printlist{language}%
+  \newunit\newblock
+  \usebibmacro{byauthor}%
+  \newunit\newblock
+  \usebibmacro{in:}%
+  \usebibmacro{byeditor+others}%
+  \newunit\newblock
+  \usebibmacro{maintitle+booktitle}%
+  \newunit\newblock
+  \printfield{edition}%
+  \newunit
+  \iffieldundef{maintitle}
+    {\printfield{volume}%
+     \printfield{part}}
+    {}%
+  \newunit
+  \printfield{volumes}%
+  \newunit\newblock
+  \printfield{note}%
+  \newunit\newblock
+  \printlist{location}%
+  \iflistundef{publisher}
+    {\setunit*{\addcomma\space}}
+    {\setunit*{\addcolon\space}}%
+  \printlist{publisher}%
+  \setunit*{\addcomma\space}%
+  \usebibmacro{series+number}% Nom de collection/série avant la date
+  \newunit\newblock
+  \usebibmacro{date}%
+  \newunit
+  \newunit\newblock
+  \iftoggle{bbx:isbn}
+    {\printfield{isbn}}
+    {}%
+  \newunit\newblock
+  \usebibmacro{doi+eprint+url}%
+  \newunit\newblock
+  \usebibmacro{addendum+pubstate}%
+  \setunit{\bibpagerefpunct}\newblock
+  \usebibmacro{chapter+pages}% Numéros de pages à la fin
+  \newunit\newblock
+  \usebibmacro{pageref}%
+  \newunit\newblock
+  \iftoggle{bbx:related}
+    {\usebibmacro{related:init}%
+     \usebibmacro{related}}
+    {}%
+  \usebibmacro{finentry}}
+
+% Remplace éd. par dir.
+\DefineBibliographyStrings{french}{%
+  byeditor           = {\mkbibparens{dir\adddot}}
+}
+
+\DeclareNameFormat{labelname}{% Ajoute les initiales du prénom pour ibid. et op. cit.
+  \usebibmacro{name:family-given}
+    {\namepartfamily}
+    {\namepartgiveni}
+    {\namepartprefix}
+    {\namepartsuffixi}%
+  \usebibmacro{name:andothers}
+}
+
+\DeclareNameAlias{sortname}{family-given} % Inverse les noms et prénoms
+\DeclareNameAlias{default}{family-given} % idem
+
+\DeclareFieldFormat[article,periodical,online]{title}{\enquote{#1}} % Guillemets pour les titres autres qu'ouvrages
+\DeclareFieldFormat*{number}{\newunitpunct n° {#1}} % n°
+\DeclareFieldFormat{url}{\textless\url{#1}\textgreater} % URLs entre crochets
+\DeclareFieldFormat{urldate}{\newunitpunct consulté le {#1}} % Consulté le :
+\DeclareListFormat[online]{organization}{\textit{{#1}}\space\lbrack en ligne\rbrack} % [en ligne] 
+\DeclareFieldFormat{series}{coll.\addspace\enquote{\capitalisewords{#1}}\addcomma} % coll.
+\DeclareFieldFormat{editortype}{\mkbibparens{#1}} % Parenthèses pour les éditeurs
+\DeclareDelimFormat{editortypedelim}{\addspace} % Espace comme séparateur pour les rôles d'éditeurs
+\DeclareListFormat{location}{#1\newunitpunct} % Délimiteur correct
+
+% Importer la bibliographie
+\addbibresource{biblio.bib}
+
+%%%%%%%%%%%%%%%%%%%%%
+% Début du document %
+%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%
+% Section introductive %
+%%%%%%%%%%%%%%%%%%%%%%%%
+
+\frontmatter 
+\newgeometry{hmarginratio=1:1,margin=2cm} % marges symétriques en page de garde
+\include{./00_couverture.tex}
+\restoregeometry
+\include{01_remerciements.tex}
+\tableofcontents
+
+%%%%%%%%%%%%%%%%%%%%%%
+% Section principale %
+%%%%%%%%%%%%%%%%%%%%%%
+
+\mainmatter
+\pagestyle{fancy} % Inclure un fichier par chapitre
+\include{02_introduction.tex}
+
+%%%%%%%%%%%%%%%%%%
+% Section finale %
+%%%%%%%%%%%%%%%%%%
+
+\backmatter
+
+% Utiliser "type=" pour créer des sous-catégories bibliographiques
+\printbibheading[heading=bibintoc]
+\printbibliography[nottype=online, heading=subbibintoc, title=Ouvrages]
+\printbibliography[type=online, heading=subbibintoc, title=Sitographie]
+
+%%%%%%%%%%%%%%%%%%%
+% Fin du document %
+%%%%%%%%%%%%%%%%%%%
+
+\end{document}
