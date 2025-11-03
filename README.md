@@ -15,3 +15,15 @@ Toute correction ou ajout sont bienvenus afin d'affiner ce modèle au fil du tem
 
 ## Notes
 Ce modèle a été pensé pour une compilation avec l'outil standard ``pdflatex``, ou ``latexmk``.
+
+**Attention** : Les métadonnées PDF sont pour le moment présentes dans le préambule du fichier ``main.tex``, lignes 54-59 :
+```
+% Inclusion d'hyperliens et des métadonnées PDF :
+\usepackage[unicode,
+pdfauthor={Prénom NOM},
+pdftitle={Titre du mémoire},
+pdfsubject={Sujet du mémoire},
+pdfkeywords={mots-clés}]{hyperref}
+```
+
+Il convient de les modifier de façon adéquate, de même que sur la page de garde qui n'utilise pas (pour le moment) les fonctions natives de LaTeX.
