@@ -17,7 +17,7 @@ La structure des fichiers peut se séparer en deux parties :
 ## Outils recommandés
 - [MiKTeX](https://miktex.org/howto/install-miktex) : distribution LaTeX à installer pour pouvoir compiler des documents
 - [Zotero](https://www.zotero.org) : nécessaire pour la gestion de la bibliographie
-- [Better BibTeX](https://github.com/retorquere/zotero-better-bibtex/releases/tag/v7.0.61) : extension pour faire le lien entre Zotero et LaTeX
+- [Better BibTeX](https://github.com/retorquere/zotero-better-bibtex/releases) : extension pour faire le lien entre Zotero et LaTeX
 
 ## Pour travailler avec l'éditeur de code Visual Studio Code (facultatif)
 - [Perl](https://strawberryperl.com/) : nécessaire pour compiler les documents
