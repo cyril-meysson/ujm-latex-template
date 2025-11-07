@@ -50,6 +50,7 @@ ibidpage=true
 \usepackage[autostyle=true]{csquotes} % Gestion des guillemets
 \usepackage[french,noconfigs]{babel}
 \usepackage{mfirstuc} % Majuscules automatiques
+\usepackage{etoolbox}
 
 % Inclusion d'hyperliens et des métadonnées PDF :
 \usepackage[unicode,
@@ -67,6 +68,9 @@ pdfkeywords={mots-clés}]{hyperref}
 
 % Interligne 1.5 :
 \onehalfspacing
+
+% Citations plus petites
+\AtBeginEnvironment{quotation}{\small}
 
 % Profondeur de numérotation :
 \setcounter{secnumdepth}{4} % dans le texte
