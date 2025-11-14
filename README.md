@@ -3,7 +3,7 @@ En l'absence de modèle *LaTeX* officiel adapté à la rédaction de mémoires d
 
 Toutes corrections ou ajouts extérieurs sont bienvenus afin d'affiner ce modèle au fil du temps.  
 
-Un exemple du résultat final est visible sur le fichier [main.pdf](/main.pdf), à télécharger et ouvrir séparément de préférence car le lecteur intégré de GitHub n'est pas très adapté à sa visualisation.
+Un exemple du résultat final est visible sur le fichier [main.pdf](/out_dir/main.pdf), à télécharger et ouvrir séparément de préférence car le lecteur intégré de GitHub n'est pas très adapté à sa visualisation.
 
 Dans le cas où vous souhaitez simplement utiliser ce modèle pour l'intégrer à un document *LaTeX* déjà existant, il vous suffit de copier le contenu du fichier [main.tex](/main.tex) jusqu'à la ligne 260 et de le coller dans votre préambule. Pensez toutefois à ensuite éditer les [métadonnées PDF](#métadonnées) qui ne sont pas générées automatiquement.
 
