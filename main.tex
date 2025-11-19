@@ -136,6 +136,26 @@ pdfkeywords={mots-clés}]{hyperref}
     \bibstring[\mkibid]{opcit}}
 }
 
+% Ajoute date de publication originale au titre
+\renewbibmacro*{title}{%
+  \ifboolexpr{
+    test {\iffieldundef{title}}
+    and
+    test {\iffieldundef{subtitle}}
+  }
+    {}
+    {\printtext[title]{%
+       \printfield[titlecase]{title}%
+       \setunit{\subtitlepunct}%
+       \printfield[titlecase]{subtitle}}%
+       \iffieldundef{origyear}
+    {}
+    {%
+       \setunit{\addspace}
+       \printtext[parens]{\printfield{origyear}}}%
+     \newunit}%
+  \printfield{titleaddon}}
+
 % Ajoute un séparateur entre le titre périodique et la date
 \renewbibmacro*{issue+date}{%
   \printfield{issue}%
