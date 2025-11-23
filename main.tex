@@ -45,6 +45,7 @@ includeheadfoot]{geometry}
 % Inclusion de graphiques :
 \usepackage{tikz}
 \usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
 
 % Normes typographiques :
 \usepackage[backend=biber,
@@ -122,24 +123,14 @@ pdfkeywords={mots-clés}]{hyperref}
 \renewcommand*{\newunitpunct}{\addcomma\space} % utiliser la virgule comme délimiteur
 \renewcommand*{\mkibid}{\emph} % Ibid. en italique
 \renewcommand*{\revsdnamepunct}{} % Supprime les virgules entre noms et prénoms
-\renewcommand*{\intitlepunct}{} % Supprime les deux points après in
+\renewcommand*{\intitlepunct\space}{} % Supprime les deux points après in
 
-% Ne conserve "in" que pour les articles issus d'ouvrages collectifs
-\renewbibmacro*{in:}{%
-  \ifentrytype{article}
-    {}
-    {
-      \newunitpunct
-      \printtext{\bibstring{in}\space}%
-    }%
-}
-
-\renewbibmacro*{cite:title}{% Supprime le titre pour op. cit.
-  \printtext[bibhyperlink]{%
-    \ifsingletitle{}{\printfield[citetitle]{labeltitle}}%
-    \setunit{\nametitledelim}%
-    \bibstring[\mkibid]{opcit}}
-}
+% Supprime "in" pour les articles uniquement
+\renewbibmacro{in:}{%
+\ifentrytype{article}
+  {}
+  {\printtext{\bibstring{in}}%
+   \printunit{\intitlepunct}}}
 
 % Ajoute date de publication originale au titre
 \renewbibmacro*{title}{%
@@ -160,6 +151,13 @@ pdfkeywords={mots-clés}]{hyperref}
        \printtext[parens]{\printfield{origyear}}}%
      \newunit}%
   \printfield{titleaddon}}
+
+\renewbibmacro*{cite:title}{% Supprime le titre pour op. cit.
+  \printtext[bibhyperlink]{%
+    \ifsingletitle{}{\printfield[citetitle]{labeltitle}}%
+    \setunit{\nametitledelim}%
+    \bibstring[\mkibid]{opcit}}
+}
 
 % Ajoute un séparateur entre le titre périodique et la date
 \renewbibmacro*{issue+date}{%
@@ -237,6 +235,51 @@ pdfkeywords={mots-clés}]{hyperref}
     {}%
   \usebibmacro{finentry}}
 
+% Support des entrées bibliographiques "standards"
+\DeclareBibliographyDriver{standard}{
+  \usebibmacro{bibindex}%
+  \usebibmacro{begentry}%
+  \usebibmacro{author}%
+  \setunit{\labelnamepunct}\newblock
+  \usebibmacro{maintitle+title}
+  \printfield{shorttitle}
+  \newunit
+  \printlist{language}%
+  \newunit\newblock
+  \usebibmacro{byauthor}%
+  \newunit\newblock
+  \iffieldundef{maintitle}
+    {\printfield{volume}%
+     \printfield{part}}
+    {}%
+  \newunit
+  \printfield{volumes}%
+  \newunit\newblock
+  \printfield{type}%
+  \setunit*{\addspace}%
+  \printfield{number}%
+  \newunit\newblock
+  \printfield{version}%
+  \newunit
+  \printfield{note}%
+  \newunit\newblock
+  \usebibmacro{institution+location+date}%
+  \newunit\newblock
+  \usebibmacro{chapter+pages}%
+  \newunit
+  \printfield{pagetotal}%
+  \newunit\newblock
+  \iftoggle{bbx:isbn}
+    {\printfield{isrn}}
+    {}%
+  \newunit\newblock
+  \usebibmacro{doi+eprint+url}%
+  \newunit\newblock
+  \usebibmacro{addendum+pubstate}%
+  \setunit{\bibpagerefpunct}\newblock
+  \usebibmacro{pageref}%
+  \usebibmacro{finentry}}
+
 % Remplace éd. par dir.
 \DefineBibliographyStrings{french}{%
   byeditor           = {\mkbibparens{dir\adddot}}
@@ -266,6 +309,7 @@ pdfkeywords={mots-clés}]{hyperref}
 
 % Importer la bibliographie
 \addbibresource{biblio.bib}
+
 
 %%%%%%%%%%%%%%%%%%%%%
 % Début du document %
